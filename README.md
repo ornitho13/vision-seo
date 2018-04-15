@@ -1,5 +1,7 @@
+
+![Vision SEO logo(https://github.com/ornitho13/vision-seo/image/logo.jpg)
 # vision-seo
-a tool for help seo in development
+a SEO helper tool for development
 
 ## Why ?
 As a developer, i need to have tools whose warm me when i make mistake :)
@@ -9,6 +11,7 @@ Vision SEO provide you in one look to see what is wrong with SEO in your develop
 ## How ?
 first install it
 ### npm
+    npm i vision-seo
 ### or download and use it
 download from github :
 
@@ -19,3 +22,6 @@ use it in your `head`:
 
     <script src="_YOUR_PATH_/script/vision-seo.js"></script>
     <link rel="stylesheet" href="_YOUR_PATH_/script/vision-seo.css">
+
+## What ?
+here the features available with Vision SEO

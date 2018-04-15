@@ -1,0 +1,26 @@
+{
+  "name": "vision-seo",
+  "version": "1.0.0",
+  "description": "a SEO helper tool for development",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ornitho13/vision-seo.git"
+  },
+  "keywords": [
+    "seo",
+    "tools",
+    "development",
+    "seo",
+    "tools"
+  ],
+  "author": "Jerome DEBRAY",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ornitho13/vision-seo/issues"
+  },
+  "homepage": "https://github.com/ornitho13/vision-seo#readme"
+}
