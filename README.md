@@ -12,17 +12,12 @@ Vision SEO provide you, in one look, to see what is wrong with SEO in your devel
 first install it
 ### npm
     npm i vision-seo
-### or download it
-download from github :
-
-    git clone git@github.com:ornitho13/vision-seo.git
-
 
 ### use it
 in your `<head>`
 
-    <script src="_YOUR_PATH_/script/vision-seo.js"></script>
-    <link rel="stylesheet" href="_YOUR_PATH_/script/vision-seo.css">
+    <script src="node_modules/vision-seo/script/vision-seo.js"></script>
+    <link rel="stylesheet" href="node_modules/vision-seo/style/vision-seo.css">
 
 ## What ?
 here the features available with Vision SEO :
