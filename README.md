@@ -18,7 +18,8 @@ download from github :
     git clone git@github.com:ornitho13/vision-seo.git
 
 
-###use it in your `head`:
+### use it
+in your `<head>`
 
     <script src="_YOUR_PATH_/script/vision-seo.js"></script>
     <link rel="stylesheet" href="_YOUR_PATH_/script/vision-seo.css">
