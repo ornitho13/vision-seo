@@ -1,5 +1,5 @@
 
-![Vision SEO logo](https://github.com/ornitho13/vision-seo/image/logo.jpg)
+![Vision SEO logo](https://github.com/ornitho13/vision-seo/blob/master/image/logo.jpg?raw=true)
 # vision-seo
 a SEO helper tool for development
 
