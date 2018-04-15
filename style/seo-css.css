@@ -1,0 +1,105 @@
+/*
+detect a without href
+*/
+a:not([href]), a[href=''], a:not([title]), a[title=''], a[target], a[href='#'], a[href='^#'], img:not([src]), img[src=''], img:not([alt]), img[alt=''] {
+    display: inline-block;
+    outline: dashed 3px;
+    margin: 5px;
+    /*color: #fff;
+    background: #696969;*/
+}
+
+/*
+detect a with anchor
+*/
+a[href='#'], a[href='^#'] {
+    outline-color: #000000;
+}
+/*
+detect a without title
+*/
+a:not([title]), a[title=''], a[target="_blank"] {
+    outline-color: #d57c00;
+}
+/*
+detect a without href
+*/
+a:not([href]), img:not([src]) {
+    width: 20px;
+    height: 20px;
+}
+a:not([href]), a[href=''] {
+    outline-color: #900;
+}
+/*
+detect img without alt
+*/
+img:not([src]), img[src=''], img:not([alt]), img[alt=''] {
+    outline-color: #900;
+}
+.seo-css-warning, .seo-css-error, .seo-css-success {
+    color: #fff;
+    font-weight: bold;
+}
+.no-bold {
+    font-weight: normal;
+}
+.seo-css-warning {
+    background: orange;
+}
+.seo-css-error {
+    background: red;
+}
+.seo-css-success {
+    background: #00a651;
+}
+.seo-css-bar {
+    font: 14px arial,sans-serif;
+    background: #f9f9f9;
+    border-top: 1px solid #bebebe;
+    height: 65px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 10px 0;
+    line-height: 45px;
+}
+.seo-css-bar .left {
+    float: left;
+    border-left: 1px solid #d2d2d2;
+    padding: 0 20px;
+    position: relative;
+    cursor: help;
+}
+.seo-css-bar .left.has-sub {
+    padding-right: 40px;
+}
+.seo-css-bar .left:first-child {
+    border-left: none;
+}
+.seo-css-bar .left .badge {
+    width: 20px;
+    height: 20px;
+    padding: 2px 5px;
+    border-radius: 2px;
+    display: block;
+    text-align: center;
+}
+.seo-css-bar .left .badge.sub {
+    position: absolute;
+    line-height: normal;
+    top: 0;
+    right: 0;
+}
+.seo-css-bar .left.has-sub .badge.sub {
+    right: 20px;
+}
+.seo-css-bar .left .material-icons {
+    margin-left: 0;
+}
+.seo-css-bar .icon-only .badge, .seo-css-bar .material-icons{
+    display: inline;
+    line-height: inherit;
+}
