@@ -1,6 +1,6 @@
 {
   "name": "vision-seo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "a SEO helper tool for development",
   "main": "index.js",
   "scripts": {
