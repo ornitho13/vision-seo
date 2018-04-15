@@ -12,12 +12,10 @@ first install it
 ### or download and use it
 download from github :
 
-`
-git clone git@github.com:ornitho13/vision-seo.git
-`
+    git clone git@github.com:ornitho13/vision-seo.git
 
-use it :
 
-`<script src="_YOUR_PATH_/script/vision-seo.js"></script>`
+use it in your `head`:
 
-`<link rel="stylesheet" href="_YOUR_PATH_/script/vision-seo.css">`
+    <script src="_YOUR_PATH_/script/vision-seo.js"></script>
+    <link rel="stylesheet" href="_YOUR_PATH_/script/vision-seo.css">
