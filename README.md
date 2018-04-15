@@ -40,5 +40,5 @@ here the features available with Vision SEO :
 ## Requirements
 Basically nothing, or maybe npm for the easy installation
 
-## Have ideas for this tools ?
+## Have ideas for this tool ?
 feel free to open issue at : https://github.com/ornitho13/vision-seo/issues
