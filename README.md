@@ -38,7 +38,7 @@ here the features available with Vision SEO :
 * give the `load time performance` for the current page
 
 ## Demo
-https://ornitho13.github.io/vision-seo/demo/index.html
+https://ornitho13.github.io/vision-seo/
 
 ## Requirement
 Basically nothing, or maybe npm for the easy installation
