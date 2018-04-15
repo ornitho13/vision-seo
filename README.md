@@ -37,6 +37,9 @@ here the features available with Vision SEO :
 * check if the web page has `description` and if it's value is empty
 * give the `load time performance` for the current page
 
+## Demo
+https://ornitho13.github.io/vision-seo/demo/index.html
+
 ## Requirement
 Basically nothing, or maybe npm for the easy installation
 
