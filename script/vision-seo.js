@@ -1,7 +1,7 @@
 /**
  * Created by ornitho13 on 14/04/2018.
  */
-;(function(){
+(function(){
     var SeoCSS = {
         h1 : {},
         https : {},
@@ -120,28 +120,28 @@
                         class : 'seo-css-success',
                         nbChar : nbCharTitle,
                         msg : 'perfect size !'
-                    }
+                    };
                 } else if (nbCharTitle < 30) {
                     this.title = {
                         exist : true,
                         class : 'seo-css-warning',
                         nbChar : nbCharTitle,
                         msg : 'not enough character'
-                    }
+                    };
                 } else if (nbCharTitle === 0) {
                     this.title = {
                         exist : true,
                         class : 'seo-css-error',
                         nbChar : nbCharTitle,
                         msg : 'empty title !'
-                    }
+                    };
                 } else {
                     this.title = {
                         exist : true,
                         class : 'seo-css-warning',
                         nbChar : nbCharTitle,
                         msg : 'title too long'
-                    }
+                    };
                 }
 
             }
@@ -195,34 +195,34 @@
                 this.aContent = {
                     nb : nb,
                     class: 'seo-css-error'
-                }
+                };
             } else {
                 this.aContent = {
                     nb : nb,
                     class: 'seo-css-success'
-                }
+                };
             }
             if (nbBlank > 0) {
                 this.aBlank = {
                     nb : nbBlank,
                     class: 'seo-css-warning'
-                }
+                };
             } else {
                 this.aBlank = {
                     nb : nbBlank,
                     class: 'seo-css-success'
-                }
+                };
             }
             if (nbTitle > 0) {
                 this.aTitle = {
                     nb : nbTitle,
                     class: 'seo-css-warning'
-                }
+                };
             } else {
                 this.aTitle = {
                     nb : nbTitle,
                     class: 'seo-css-success'
-                }
+                };
             }
 
             var nbAWithoutHref = document.querySelectorAll('a:not([href]), a[href=""]').length;
@@ -312,7 +312,7 @@
                         self.hierarchy = {
                             class: 'seo-css-error',
                             error: ' ' + hsNotFound + ' not found but ' + item + ' found'
-                        }
+                        };
                     }
                 } else {
                     hsNotFound = item;
@@ -328,19 +328,19 @@
                     elt : null,
                     nb : nbH1,
                     class : 'seo-css-warning'
-                }
+                };
             } else if (nbH1 > 1) {
                 this.h1 = {
                     elt : h1,
                     nb : nbH1,
                     class : 'seo-css-error'
-                }
+                };
             } else {
                 this.h1 = {
                     elt : h1,
                     nb : nbH1,
                     class : 'seo-css-success'
-                }
+                };
             }
 
             return this;
