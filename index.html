@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Title with efficient length or value</title>
+    <meta name="description" content="test on description with a long long text, it means at least 50 characters">
     <link rel="stylesheet" href="style/vision-seo.css"/>
+    <link rel="canonical" href="index.html"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
     <style>
         * {
@@ -56,6 +58,86 @@
     <img src="" alt="test"><br />
     <img src="index.html" ><br />
     <img src="index.html" alt="test"><br />
-<script src="script/vision-seo.js"></script><br />
+<style>
+.seo-css-warning {
+    background: orange;
+}
+.seo-css-error {
+    background: red;
+}
+.seo-css-success {
+    background: #00a651;
+}
+.seo-css-default {
+    bakground: none;
+    color: #333;
+}
+.vision-seo-bar {
+    font: 14px arial,sans-serif;
+    background: #f9f9f9;
+    border-top: 1px solid #bebebe;
+    height: 65px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 10px;
+    line-height: 45px;
+    z-index: 9999;
+}
+.vision-seo-btn {
+    border: 1px solid #c5c5c5;
+    background: #ffff;
+    color:#333;
+    font-weight: bold;
+    line-height: 35px;
+    border-radius: 2px;
+    margin: 0 10px;
+    padding: 0 10px;
+}
+.vision-seo-btn .material-icons {
+    float: left;
+    vertical-align: middle;
+    line-height: 35px;
+    margin-right: 10px;
+}
+.vision-seo-btn .seo-css-error {
+    background: none;
+    color: red;
+}
+.vision-seo-btn .seo-css-warning {
+    background: none;
+    color: orange;
+}
+.vision-seo-btn .seo-css-success {
+    background: none;
+    color: #00a651;
+}
+.vision-seo-aside {
+    position: fixed;
+    top: 0;
+    bottom: 65px;
+    left: -340px;
+    width: 320px;
+    box-shadow: #c7c7c7 1px 0px 10px 0px;
+    transition: all .3s linear;
+    background: #fff;
+}
+.vision-seo-aside.open {
+    left: 0;
+}
+</style>
+<div class="vision-seo-bar">
+    <button class="vision-seo-btn" data-type="{'type':'hierarchy', 'title' : 'Hierarchy status'}"><i class="material-icons badge seo-css-default">alarm</i>hierarchy</button>
+    <button class="vision-seo-btn" data-type="{'type':'hierarchy', 'title' : 'Link status'}"><i class="material-icons badge seo-css-default">link</i>link</button>
+    <button class="vision-seo-btn" data-type="{'type':'hierarchy', 'title' : 'Image status'}"><i class="material-icons badge seo-css-default">insert_photo</i>image</button>
+    <button class="vision-seo-btn" data-type="{'type':'hierarchy', 'title' : 'Meta status'}"><i class="material-icons badge seo-css-default">code</i>meta</button>
+    <button class="vision-seo-btn" data-type="{'type':'hierarchy', 'title' : 'Performance status'}"><i class="material-icons badge seo-css-default">alarm</i>Performance</button>
+</div>
+<div class="vision-seo-aside" id="vision-seo-aside">
+    <div></div>
+</div>
+<script src="script/vision-seo.js"></script>
 </body>
 </html>

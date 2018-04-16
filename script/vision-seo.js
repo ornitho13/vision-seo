@@ -45,11 +45,11 @@
                 class : 'seo-css-warning',
                 msg : 'canonical not exist'
             };
-            var canonical = document.querySelectorAll('meta[name="canonical"]');
+            var canonical = document.querySelectorAll('link[rel="canonical"]');
             if (canonical.length > 0) {
                 canonical = canonical[0];
                 //noinspection JSValidateTypes
-                if (canonical.getAttribute('content') === null || canonical.getAttribute('content').trim() === '') {
+                if (canonical.getAttribute('href') === null || canonical.getAttribute('href').trim() === '') {
                     this.canonical = {
                         class : 'seo-css-error',
                         msg : 'canonical exist but have no value'
@@ -79,7 +79,7 @@
             var eltTitle = document.getElementsByTagName('title'),
                 eltDesc = document.querySelectorAll('meta[name="description"]');
             if (eltDesc.length === 1) {
-                var txtDesc = eltDesc[0].innerHTML,
+                var txtDesc = eltDesc[0].getAttribute('content'),
                     nbCharDesc = txtDesc.length;
                 if (nbCharDesc === 0) {
                     this.description = {
@@ -91,7 +91,7 @@
                 } else if (nbCharDesc < 50) {
                     this.description = {
                         exist : true,
-                        class : 'seo-css-error',
+                        class : 'seo-css-warning',
                         nbCharacter : nbCharDesc,
                         msg : 'description to small'
                     };
@@ -248,7 +248,17 @@
             return this;
         },
         prepareBar : function () {
-            var bar = document.createElement('div');
+            var button = document.querySelectorAll('.vision-seo-bar button');
+            console.log(button);
+
+            button.forEach(function(item){
+                item.addEventListener('click', function(){
+                    var aside = document.getElementById('vision-seo-aside');
+                    aside.classList.add('open');
+                });
+            });
+            return this;
+            /*var bar = document.createElement('div');
             bar.className = 'seo-css-bar';
             //H1.parta
             var h1HTML = '<div class="left h1 has-sub" title="number of H1">H1<span class="badge sub ' + this.h1.class + '">' + this.h1.nb + '</span></div>',
@@ -270,7 +280,7 @@
                     '<span class="badge sub ' + this.imgAlt.class + '">' + this.imgAlt.nb + '</span></div>',
                 viewportHTML = '<div class="left icon-only no-bold" title="has viewport ?"><i class="material-icons badge ' + this.viewport.class +
                     '">perm_device_information</i></div>',
-                titleDescription = '<div class="left icon-only no-bold" title="' + this.title.msg + '"><i class="material-icons badge ' + this.title.class +
+                titleDescription = '<div class="left icon-only no-bold" title="' + this .title.msg + '"><i class="material-icons badge ' + this.title.class +
                     '">title</i></div>' +
                     '<div class="left icon-only no-bold" title="' + this.description.msg + '"><i class="material-icons badge ' + this.description.class +
                     '">title</i></div>',
@@ -296,7 +306,7 @@
             bar.innerHTML = h1HTML + hierarchyProblem + httpsHTML + aWithoutHrefHTML + aWithoutContentHTML + aWithoutTitle + aWithBlankHTML + imgWithoutAltHTML
                 + imgWithoutSrcHTML + viewportHTML + titleDescription + canonicalHTML + nodeHTML + performanceHTML;
             document.body.appendChild(bar);
-            return this;
+            return this;*/
         },
         checkHierarchy : function () {
             var hs = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
