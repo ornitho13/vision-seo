@@ -249,7 +249,6 @@
         },
         prepareBar : function () {
             var button = document.querySelectorAll('.vision-seo-bar button');
-            console.log(button);
 
             button.forEach(function(item){
                 item.addEventListener('click', function(){
