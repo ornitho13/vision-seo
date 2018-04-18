@@ -4,177 +4,165 @@
 (function(){
     var SeoCSS = {
         h1 : {},
-        https : {},
-        aHref : {},
-        aBlank : {},
-        title : {},
-        description : {},
-        aContent : {},
-        aTitle : {},
-        imgSrc : {},
-        imgAlt : {},
-        viewport : {},
-        node : {},
+        link: {'title' : 'Link status', data : [], nbError : 0, nbWarning : 0},
+        img : {'title' : 'Image Status', data : [], nbError : 0, nbWarning : 0},
+        meta : {'title' : 'Meta Status', data : [], nbError : 0, nbWarning : 0},
+        perf : {'title' : 'Performance Status', data : [], nbError : 0, nbWarning : 0},
+        hierarchy : {'title' : 'Hierarchy Status', data : [], nbError : 0, nbWarning : 0},
         init : function () {
             this.prepareIcon()
-                .countH1()
-                .checkHierarchy()
-                .countImgIssue()
-                .countAIssue()
-                .detectViewport()
-                .isHttps()
-                .checkDescriptionTitle()
-                .hasCanonical()
-                .getNbNode()
-
+                .getHierarchy()
+                .getImage()
+                .getLink()
+                .getPerformance()
+                .getMeta()
+          
                 .prepareBar()
             ;
         },
-        getNbNode : function () {
-            var nbNode = document.getElementsByTagName('*').length;
-            this.node = {
-                nb : nbNode,
-                msg : nbNode > 1000 ? 'too many node in page (' + nbNode + ' nodes)' : 'under 1000 nodes (' + nbNode + ' nodes)',
-                class : nbNode < 1000 ? 'seo-css-success' : 'seo-css-error'
-            };
+        getMeta : function () {
+            var children = document.head.children,
+                hasViewport = false;
+            
+            for (var obj in children) {
+                if (children.hasOwnProperty(obj)) {
+                    var item = children[obj];
+                    if (item.tagName === 'META' && item.getAttribute('name') === 'viewport') {
+                        hasViewport = true;
+                    }
+                }
+            }
 
-            return this;
-        },
-        hasCanonical : function () {
-            this.canonical = {
-                class : 'seo-css-warning',
-                msg : 'canonical not exist'
-            };
+            if (hasViewport) {
+                this.meta.data.push(
+                    '<div class="vision-seo-item ' + (hasViewport ? 'seo-css-success' : 'seo-css-warning') + 
+                    '">Mobile Viewport' + (hasViewport ? '' : ' not') + ' detected</div>'
+                );
+            } else {
+                this.meta.nbError++;
+            }
+
             var canonical = document.querySelectorAll('link[rel="canonical"]');
             if (canonical.length > 0) {
                 canonical = canonical[0];
                 //noinspection JSValidateTypes
                 if (canonical.getAttribute('href') === null || canonical.getAttribute('href').trim() === '') {
-                    this.canonical = {
-                        class : 'seo-css-error',
-                        msg : 'canonical exist but have no value'
-                    };
+                    this.meta.data.push(
+                        '<div class="vision-seo-item seo-css-warning">canonical not exist or exist but have no value</div>'
+                    );
+                    this.meta.nbError++;
                 } else {
-                    this.canonical = {
-                        class : 'seo-css-success',
-                        msg : 'canonical not exist'
-                    };
+                    this.meta.data.push(
+                        '<div class="vision-seo-item seo-css-success">canonical exist</div>'
+                    );
                 }
             }
-            return this;
-        },
-        checkDescriptionTitle : function () {
-            this.title = {
-                exist : false,
-                class : 'seo-css-error',
-                nbCharacter : 0,
-                msg : 'title not exist !'
-            };
-            this.description = {
-                exist : false,
-                class : 'seo-css-error',
-                nbCharacter : 0,
-                msg : 'description not exist !'
-            };
+
             var eltTitle = document.getElementsByTagName('title'),
                 eltDesc = document.querySelectorAll('meta[name="description"]');
             if (eltDesc.length === 1) {
                 var txtDesc = eltDesc[0].getAttribute('content'),
                     nbCharDesc = txtDesc.length;
                 if (nbCharDesc === 0) {
-                    this.description = {
-                        exist : true,
-                        class : 'seo-css-error',
-                        nbCharacter : 0,
-                        msg : 'description empty'
-                    };
+                    this.meta.data.push(
+                        '<div class="vision-seo-item seo-css-error">description is empty<span>' + nbCharDesc + ' chars</span></div>' +
+                        '<div class="vision-seo-tips">description size should be between 50 to 300 characters</div>'
+                    );
+                    this.meta.nbError++;
                 } else if (nbCharDesc < 50) {
-                    this.description = {
-                        exist : true,
-                        class : 'seo-css-warning',
-                        nbCharacter : nbCharDesc,
-                        msg : 'description to small'
-                    };
+                    this.meta.data.push(
+                        '<div class="vision-seo-item seo-css-warning">description is too small <span>' + nbCharDesc + ' chars</span></div>' +
+                        '<div class="vision-seo-tips">description size should be between 50 to 300 characters</div>'
+                    );
+                    this.meta.nbWarning++;
                 } else if (nbCharDesc > 50 && nbCharDesc < 300) {
-                    this.description = {
-                        exist : true,
-                        class : 'seo-css-success',
-                        nbCharacter : nbCharDesc,
-                        msg : 'perfect size !'
-                    };
+                    this.meta.data.push(
+                        '<div class="vision-seo-item seo-css-success">description has the good size <span>' + nbCharDesc + ' chars</span></div>' +
+                        '<div class="vision-seo-tips">description size should be between 50 to 300 characters</div>'
+                    );
                 } else {
-                    this.description = {
-                        exist : true,
-                        class : 'seo-css-warning',
-                        nbCharacter : nbCharDesc,
-                        msg : 'description too long'
-                    };
+                    this.meta.data.push(
+                        '<div class="vision-seo-item seo-css-warning">description is too long <span>' + nbCharDesc + ' chars</span></div>' +
+                        '<div class="vision-seo-tips">description size should be between 50 to 300 characters</div>'
+                    );
+                    this.meta.nbWarning++;
                 }
             }
             if (eltTitle.length === 1) {
                 var txtTitle = eltTitle[0].innerHTML,
                     nbCharTitle = txtTitle.length;
                 if (nbCharTitle > 35 && nbCharTitle < 60) {
-                    this.title = {
-                        exist : true,
-                        class : 'seo-css-success',
-                        nbChar : nbCharTitle,
-                        msg : 'perfect size !'
-                    };
+                    this.meta.data.push(
+                        '<div class="vision-seo-item seo-css-success">title has the good size <span>' + nbCharTitle + ' chars</span></div>' +
+                        '<div class="vision-seo-tips">title size should be between 35 to 50 characters</div>'
+                    );
                 } else if (nbCharTitle < 30) {
-                    this.title = {
-                        exist : true,
-                        class : 'seo-css-warning',
-                        nbChar : nbCharTitle,
-                        msg : 'not enough character'
-                    };
+                    this.meta.data.push(
+                        '<div class="vision-seo-item seo-css-warning">title is too small <span>' + nbCharTitle + ' chars</span></div>' +
+                        '<div class="vision-seo-tips">title size should be between 35 to 50 characters</div>'
+                    );
+                    this.meta.nbWarning++;
                 } else if (nbCharTitle === 0) {
-                    this.title = {
-                        exist : true,
-                        class : 'seo-css-error',
-                        nbChar : nbCharTitle,
-                        msg : 'empty title !'
-                    };
+                    this.meta.data.push(
+                        '<div class="vision-seo-item seo-css-error">title is empty <span>' + nbCharTitle + ' chars</span></div>' +
+                        '<div class="vision-seo-tips">title size should be between 35 to 50 characters</div>'
+                    );
+                    this.meta.nbError++;
                 } else {
-                    this.title = {
-                        exist : true,
-                        class : 'seo-css-warning',
-                        nbChar : nbCharTitle,
-                        msg : 'title too long'
-                    };
+                    this.meta.data.push(
+                        '<div class="vision-seo-item seo-css-warning">title is too long <span>' + nbCharTitle + ' chars</span></div>' +
+                        '<div class="vision-seo-tips">title size should be between 35 to 50 characters</div>'
+                    );
+                    this.meta.nbWarning++;
                 }
 
             }
-
+          
             return this;
-
         },
-        isHttps : function () {
+        getPerformance : function () {
+            var nbNode = document.getElementsByTagName('*').length,
+                self = this;
+            if (nbNode > 1000) {
+                this.perf.nbError++;
+            }
+            this.perf.data.push(
+                '<div class="vision-seo-item ' + (nbNode < 1000 ? 'seo-css-success' : 'seo-css-error') + '">' + (
+                    nbNode > 1000 ? 'too many node in page (' + nbNode + ' nodes)' : 'under 1000 nodes (' + nbNode + ' nodes)'
+                ) + '</div>'
+            );
             var isHttps = location.protocol === 'https:';
-            this.https = {is : isHttps, class : (isHttps ? 'seo-css-success' : 'seo-css-error')};
-            return this;
-        },
-        detectViewport : function () {
-            var children = document.head.children;
-            this.viewport = {
-                has : 0,
-                class : 'seo-css-error'
-            };
-            for (var obj in children) {
-                if (children.hasOwnProperty(obj)) {
-                    var item = children[obj];
-                    if (item.tagName === 'META' && item.getAttribute('name') === 'viewport') {
-                        this.viewport = {
-                            has : 1,
-                            class : 'seo-css-success'
-                        };
+            if (isHttps === false) {
+                this.perf.nbError++;
+            }
+            this.perf.data.push(
+                '<div class="vision-seo-item ' + (isHttps ? 'seo-css-success' : 'seo-css-error') + '">' + (
+                    isHttps ? 'Your site is https' : 'Your site is not https'
+                ) + '</div>'
+            
+            );
+
+            window.addEventListener('load', function () {
+                if ('performance' in window) {
+                    //noinspection JSUnresolvedVariable
+                    var time = (performance.timing.loadEventStart - performance.timing.navigationStart);
+                    self.perf.data.push(
+                        '<div class="vision-seo-item ' + (time > 2500 ? 'seo-css-error' : (time > 1500 ? 'seo-css-warning' : 'seo-css-success')) + 
+                        '">loading time  <span>' + time + ' ms</span></div>' +
+                        '<div class="vision-seo-tips">page loading time should be under 1 500 ms</div>'
+                    );
+                    if (time > 2500) {
+                        self.perf.nbError++;
+                    }
+                    if (time > 1500 && time < 2500) {
+                        this.perf.nbWarning++;
                     }
                 }
-            }
-
+            });
+            
             return this;
         },
-        countAIssue : function () {
+        getLink : function () {
             var a = document.querySelectorAll('a'),
                 nb = 0,
                 nbBlank = 0,
@@ -192,167 +180,193 @@
                 }
             });
             if (nb > 0) {
-                this.aContent = {
-                    nb : nb,
-                    class: 'seo-css-error'
-                };
+                this.link.data.push(
+                    '<div class="vision-seo-item seo-css-error">A with empty content : <span>' + nb + '</span></div>'
+                );
+                this.link.nbError++;
             } else {
-                this.aContent = {
-                    nb : nb,
-                    class: 'seo-css-success'
-                };
+                this.link.data.push(
+                    '<div class="vision-seo-item seo-css-success">A with empty content : <span>0</span></div>'
+                );
             }
             if (nbBlank > 0) {
-                this.aBlank = {
-                    nb : nbBlank,
-                    class: 'seo-css-warning'
-                };
+                this.link.data.push(
+                    '<div class="vision-seo-item seo-css-warning">' + 
+                    '<input class="vision-seo-checkbox" type="checkbox" data-click=\'a[target="_blank"]\' title="reveal"/>' + 
+                    'A with target="_blank" : <span>' + nbBlank + '</span></div>'
+                );
+                this.link.nbWarning++;
             } else {
-                this.aBlank = {
-                    nb : nbBlank,
-                    class: 'seo-css-success'
-                };
+                this.link.data.push(
+                    '<div class="vision-seo-item seo-css-success">A with target="_blank" : <span>0</span></div>'
+                );
             }
             if (nbTitle > 0) {
-                this.aTitle = {
-                    nb : nbTitle,
-                    class: 'seo-css-warning'
-                };
+                this.link.data.push(
+                    '<div class="vision-seo-item seo-css-warning">A with title attribute : <span>' + nbTitle + '</span></div>'
+                );
+                this.link.nbWarning++;
             } else {
-                this.aTitle = {
-                    nb : nbTitle,
-                    class: 'seo-css-success'
-                };
+                this.link.data.push(
+                    '<div class="vision-seo-item seo-css-success">A with title attribute : <span>0</span></div>'
+                );
             }
 
             var nbAWithoutHref = document.querySelectorAll('a:not([href]), a[href=""]').length;
-            this.aHref = {
-                nb : nbAWithoutHref,
-                class : nbAWithoutHref > 0 ? 'seo-css-error' : 'seo-css-success'
-            };
+            this.link.data.push(
+                '<div class="vision-seo-item ' + (nbAWithoutHref > 0 ? 'seo-css-error' : 'seo-css-success') + 
+                '"><input class="vision-seo-checkbox" type="checkbox" data-click=\'a:not([href]), a[href="]\' title="reveal"/>' + 
+                'A without href attribute : <span>' + nbAWithoutHref + '</span></div>'
+            );
+            if (nbAWithoutHref > 0) {
+                this.link.nbError++;
+            }
 
             return this;
         },
-        countImgIssue : function () {
-            var nbImgWithoutSrc = document.querySelectorAll('img:not([src]), img[src=""]').length;
-            this.imgSrc = {
-                nb : nbImgWithoutSrc,
-                class : nbImgWithoutSrc > 0 ? 'seo-css-error' : 'seo-css-success'
-            };
-            var nbImgWithoutAlt = document.querySelectorAll('img:not([alt]), img[alt=""]').length;
-            this.imgAlt = {
-                nb : nbImgWithoutAlt,
-                class : nbImgWithoutAlt > 0 ? 'seo-css-error' : 'seo-css-success'
-            };
+        getImage : function () {
+            var nbImgWithoutSrc = document.querySelectorAll('img:not([src]), img[src=""]').length,
+                nbImgWithoutAlt = document.querySelectorAll('img:not([alt]), img[alt=""]').length;
+            this.img.data.push(
+                '<div class="vision-seo-item ' + (nbImgWithoutSrc > 0 ? 'seo-css-error' : 'seo-css-success') + 
+                '"><input class="vision-seo-checkbox" type="checkbox" data-click=\'img:not([src]), img[src=""]\' title="reveal"/>' + 
+                '&lt;img&gt; without src or with empty src<span>' + nbImgWithoutSrc + '</span>'
+            );
+            if (nbImgWithoutSrc > 0) {
+                this.img.nbError++;
+            }
+            this.img.data.push(
+                '<div class="vision-seo-item ' + (nbImgWithoutAlt > 0 ? 'seo-css-error' : 'seo-css-success') + 
+                '"><input class="vision-seo-checkbox" type="checkbox" data-click=\'img:not([alt]), img[alt=""]\' title="reveal"/>' + 
+                '&lt;img&gt; without alt attribute<span>' + nbImgWithoutAlt + '</span>'
+            );
+            if (nbImgWithoutAlt > 0) {
+                this.img.nbError++;
+            }
 
             return this;
         },
         prepareBar : function () {
-            var button = document.querySelectorAll('.vision-seo-bar button');
+            var aside = document.createElement('aside'),
+                seoBar = document.createElement('div'),
+                self = this
+            ;
 
+            seoBar.className = 'vision-seo-bar';
+            seoBar.innerHTML = ' <button class="vision-seo-btn" data-type="hierarchy"><i class="material-icons badge seo-css-default">alarm</i>hierarchy</button>' +
+                '<button class="vision-seo-btn" data-type="link"><i class="material-icons badge seo-css-default">link</i>link</button>' +
+                '<button class="vision-seo-btn" data-type="img"><i class="material-icons badge seo-css-default">insert_photo</i>image</button>' +
+                '<button class="vision-seo-btn" data-type="meta"><i class="material-icons badge seo-css-default">code</i>meta</button>' +
+                '<button class="vision-seo-btn" data-type="perf"><i class="material-icons badge seo-css-default">alarm</i>Performance</button>'
+            ;
+            document.body.appendChild(seoBar);
+
+            aside.className = 'vision-seo-aside';
+            aside.id = 'vision-seo-aside';
+            document.body.appendChild(aside);
+
+            var button = document.querySelectorAll('.vision-seo-bar button');
             button.forEach(function(item){
                 item.addEventListener('click', function(){
                     var aside = document.getElementById('vision-seo-aside');
                     aside.classList.add('open');
+                    //add layout
+                    var type = item.getAttribute('data-type');
+                    if (typeof self[type] !== 'undefined') {
+                        var dataType = self[type];
+                        aside.innerHTML = '<div class="vision-seo-title">' + dataType.title  + '</div>';
+                        dataType.data.forEach(function (item) {
+                            aside.innerHTML += item;
+                        });
+                    }
+
                 });
             });
-            return this;
-            /*var bar = document.createElement('div');
-            bar.className = 'seo-css-bar';
-            //H1.parta
-            var h1HTML = '<div class="left h1 has-sub" title="number of H1">H1<span class="badge sub ' + this.h1.class + '">' + this.h1.nb + '</span></div>',
-                hierarchyProblem = '<div class="left icon-only no-bold" title="' + this.hierarchy.error + '"><i class="material-icons badge ' +
-                    this.hierarchy.class + '">format_list_numbered</i></div>',
-                httpsHTML = '<div class="left icon-only no-bold" title="is a secure site ?"><i class="material-icons badge ' + this.https.class +
-                    '">http</i></div>',
-                aWithoutHrefHTML = '<div class="left has-sub" title="&lt;a&gt; without link or empty link"><i class="material-icons">link</i>' +
-                    '<span class="badge sub ' + this.aHref.class + '">' + this.aHref.nb + '</span></div>',
-                aWithoutContentHTML = '<div class="left has-sub" title="&lt;a&gt; without content"><i class="material-icons">link</i>' +
-                    '<span class="badge sub ' + this.aContent.class + '">' + this.aContent.nb + '</span></div>',
-                aWithoutTitle = '<div class="left has-sub" title="&lt;a&gt; without title"><i class="material-icons">link</i>' +
-                    '<span class="badge sub ' + this.aTitle.class + '">' + this.aTitle.nb + '</span></div>',
-                aWithBlankHTML = '<div class="left has-sub" title="&lt;a&gt; with target _blank"><i class="material-icons">queue_play_next</i>' +
-                    '<span class="badge sub ' + this.aBlank.class + '">' + this.aBlank.nb + '</span></div>',
-                imgWithoutSrcHTML = '<div class="left has-sub" title="&lt;img&gt; without src or empty src"><i class="material-icons">insert_photo</i>' +
-                    '<span class="badge sub ' + this.imgSrc.class + '">' + this.imgSrc.nb + '</span></div>',
-                imgWithoutAltHTML = '<div class="left has-sub" title="&lt;img&gt; without alt or empty alt"><i class="material-icons">subtitles</i>' +
-                    '<span class="badge sub ' + this.imgAlt.class + '">' + this.imgAlt.nb + '</span></div>',
-                viewportHTML = '<div class="left icon-only no-bold" title="has viewport ?"><i class="material-icons badge ' + this.viewport.class +
-                    '">perm_device_information</i></div>',
-                titleDescription = '<div class="left icon-only no-bold" title="' + this .title.msg + '"><i class="material-icons badge ' + this.title.class +
-                    '">title</i></div>' +
-                    '<div class="left icon-only no-bold" title="' + this.description.msg + '"><i class="material-icons badge ' + this.description.class +
-                    '">title</i></div>',
-                canonicalHTML = '<div class="left icon-only no-bold" title="' + this.canonical.msg + '"><i class="material-icons badge ' +
-                    this.canonical.class + '">title</i></div>',
-                nodeHTML = '<div class="left icon-only no-bold" title="' + this.node.msg + '"><i class="material-icons badge ' + this.node.class +
-                    '">code</i></div>',
-                performanceHTML = '';
-
-            window.addEventListener('load', function(){
-                if ('performance' in window) {
-                    //noinspection JSUnresolvedVariable
-                    var time = (performance.timing.loadEventStart - performance.timing.navigationStart);
-                    var performanceHTML = document.createElement('div');
-                    performanceHTML.className = 'left icon-only no-bold';
-                    performanceHTML.title = time + ' ms';
-                    performanceHTML.innerHTML = '<div class="" title="' + time + ' ms"><i class="material-icons badge ' + (time > 2500 ? 'seo-css-error' : (time > 1500 ? 'seo-css-warning' : 'seo-css-success')) + '">alarm</i></div>';
-                    bar.appendChild(performanceHTML);
-                }
+            window.addEventListener('load', function () {
+                button.forEach(function(item){
+                    var type = item.getAttribute('data-type');
+                    if (typeof self[type] !== 'undefined') {
+                        var dataType = self[type];
+                        var badge = document.createElement('div');
+                        if (dataType.nbError > 0) {
+                            badge.className = 'vision-seo-badge seo-css-error';
+                            badge.innerHTML = dataType.nbError;
+                        } else {
+                            if (dataType.nbWarning > 0) {
+                                badge.className = 'vision-seo-badge seo-css-warning';
+                                badge.innerHTML = dataType.nbWarning;
+                            } else {
+                                badge.className = 'vision-seo-badge seo-css-success';
+                                badge.innerHTML = '<i class="material-icons">done</i>';
+                            }
+                        }
+                        item.appendChild(badge);
+                    }
+                });
+                aside.addEventListener('click', function (item) {
+                    var elt = item.target;
+                    if (elt.classList.contains('vision-seo-checkbox')) {
+                        var click = elt.getAttribute('data-click');
+                        document.querySelectorAll(click).forEach(function(child){
+                            child.classList.toggle('vision-seo-reveal');
+                            elt.classList.toggle('vision-seo-checked');
+                        });
+                        if (elt.checked) {
+                            aside.classList.remove('open');
+                        }
+                    } 
+                }, true);
+                
             });
 
-
-            bar.innerHTML = h1HTML + hierarchyProblem + httpsHTML + aWithoutHrefHTML + aWithoutContentHTML + aWithoutTitle + aWithBlankHTML + imgWithoutAltHTML
-                + imgWithoutSrcHTML + viewportHTML + titleDescription + canonicalHTML + nodeHTML + performanceHTML;
-            document.body.appendChild(bar);
-            return this;*/
+            return this;
         },
-        checkHierarchy : function () {
+        getHierarchy : function () {
             var hs = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
                 hsNotFound = '',
-                self = this;
-            this.hierarchy = {
-                class: 'seo-css-success',
-                error : 'seems to have no error'
-            };
+                msg = 'Hierarchy has no issue detected'
+            ;
+            
             hs.map(function(item) {
                 if (document.getElementsByTagName(item).length > 0) {
                     if (hsNotFound !== '') {
-                        self.hierarchy = {
-                            class: 'seo-css-error',
-                            error: ' ' + hsNotFound + ' not found but ' + item + ' found'
-                        };
+                        msg = ' ' + hsNotFound + ' not found but ' + item + ' found';
                     }
                 } else {
                     hsNotFound = item;
                 }
             });
-            return this;
-        },
-        countH1 : function () {
+
+            this.hierarchy.data.push(
+                '<div class="vision-seo-item ' + (hsNotFound !== '' ? 'seo-css-error' : 'seo-css-success') + 
+                '">' + msg + '</div>'
+            );
+            if (hsNotFound !== '') {
+                this.hierarchy.nbError++;
+            }
             var h1 = document.querySelectorAll('h1'),
                 nbH1 = h1.length;
             if (nbH1 === 0) {
-                this.h1 = {
-                    elt : null,
-                    nb : nbH1,
-                    class : 'seo-css-warning'
-                };
+                this.hierarchy.data.push(
+                    '<div class="vision-seo-item seo-css-warning">No h1 detected<span>' + nbH1 + '</span></div>'
+                );
+                this.hierarchy.nbWarning++;
             } else if (nbH1 > 1) {
-                this.h1 = {
-                    elt : h1,
-                    nb : nbH1,
-                    class : 'seo-css-error'
-                };
+                this.hierarchy.data.push(
+                    '<div class="vision-seo-item seo-css-error">' + 
+                    '<input class="vision-seo-checkbox" type="checkbox" data-click=\'h1\' title="reveal"/>' + 
+                    'Too many h1 detected<span>' + nbH1 + '</span></div>'
+                );
+                this.hierarchy.nbError++;
             } else {
-                this.h1 = {
-                    elt : h1,
-                    nb : nbH1,
-                    class : 'seo-css-success'
-                };
+                this.hierarchy.data.push(
+                    '<div class="vision-seo-item seo-css-success">h1 detected<span>' + nbH1 + '</span></div>'
+                );
+                
             }
 
             return this;
+
         },
         prepareIcon : function () {
             var icon = document.createElement('link');

@@ -1,9 +1,10 @@
 /*
 detect a without href
 */
-a:not([href]), a[href=''], a:not([title]), a[title=''], a[target], a[href='#'], a[href='^#'], img:not([src]), img[src=''], img:not([alt]), img[alt=''] {
+/*a:not([href]), a[href=''], a:not([title]), a[title=''], a[target], a[href='#'], a[href='^#'], img:not([src]), img[src=''], img:not([alt]), img[alt=''],*/
+.vision-seo-reveal {
     display: inline-block;
-    outline: dashed 3px;
+    outline: dashed 3px #964;
     margin: 5px;
     /*color: #fff;
     background: #696969;*/
@@ -12,31 +13,31 @@ a:not([href]), a[href=''], a:not([title]), a[title=''], a[target], a[href='#'], 
 /*
 detect a with anchor
 */
-a[href='#'], a[href='^#'] {
+/*a[href='#'], a[href='^#'] {
     outline-color: #000000;
-}
+}*/
 /*
 detect a without title
 */
-a:not([title]), a[title=''], a[target="_blank"] {
+/*a:not([title]), a[title=''], a[target="_blank"] {
     outline-color: #d57c00;
-}
+}*/
 /*
 detect a without href
 */
-a:not([href]), img:not([src]) {
+/*a:not([href]), img:not([src]) {
     width: 20px;
     height: 20px;
 }
 a:not([href]), a[href=''] {
     outline-color: #900;
-}
+}*/
 /*
 detect img without alt
 */
-img:not([src]), img[src=''], img:not([alt]), img[alt=''] {
+/*img:not([src]), img[src=''], img:not([alt]), img[alt=''] {
     outline-color: #900;
-}
+}*/
 .seo-css-warning, .seo-css-error, .seo-css-success {
     color: #fff;
     font-weight: bold;
@@ -53,6 +54,19 @@ img:not([src]), img[src=''], img:not([alt]), img[alt=''] {
 .seo-css-success {
     background: #00a651;
 }
+.seo-css-warning {
+    background: orange;
+}
+.seo-css-error {
+    background: red;
+}
+.seo-css-success {
+    background: #00a651;
+}
+.seo-css-default {
+    background: none;
+    color: #333;
+}
 .vision-seo-bar {
     font: 14px arial,sans-serif;
     background: #f9f9f9;
@@ -63,43 +77,124 @@ img:not([src]), img[src=''], img:not([alt]), img[alt=''] {
     bottom: 0;
     right: 0;
     left: 0;
-    padding: 10px 0;
+    padding: 10px;
     line-height: 45px;
+    z-index: 9999;
 }
-.vision-seo .left {
-    float: left;
-    border-left: 1px solid #d2d2d2;
-    padding: 0 20px;
-    position: relative;
-    cursor: help;
-}
-.vision-seo .left.has-sub {
-    padding-right: 40px;
-}
-.vision-seo .left:first-child {
-    border-left: none;
-}
-.vision-seo .left .badge {
-    width: 20px;
-    height: 20px;
-    padding: 2px 5px;
+.vision-seo-btn {
+    border: 1px solid #c5c5c5;
+    background: #ffff;
+    color:#333;
+    font-weight: bold;
+    line-height: 35px;
     border-radius: 2px;
-    display: block;
-    text-align: center;
+    margin: 0 10px;
+    padding: 0 10px;
+    position: relative;
 }
-.vision-seo .left .badge.sub {
-    position: absolute;
-    line-height: normal;
+.vision-seo-btn .material-icons {
+    float: left;
+    vertical-align: middle;
+    line-height: 35px;
+    margin-right: 10px;
+}
+.vision-seo-btn .seo-css-error {
+    background: none;
+    color: red;
+}
+.vision-seo-btn .seo-css-warning {
+    background: none;
+    color: orange;
+}
+.vision-seo-btn .seo-css-success {
+    background: none;
+    color: #00a651;
+}
+.vision-seo-aside {
+    position: fixed;
     top: 0;
-    right: 0;
+    bottom: 65px;
+    left: -340px;
+    width: 320px;
+    box-shadow: #c7c7c7 1px 0px 10px 0px;
+    transition: all .3s linear;
+    background: #fff;
 }
-.vision-seo .left.has-sub .badge.sub {
-    right: 20px;
+.vision-seo-aside.open {
+    left: 0;
 }
-.vision-seo .left .material-icons {
-    margin-left: 0;
+.vision-seo-title {
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border: 1px solid #dadada;
+    margin-bottom: 30px;
 }
-.vision-seo .icon-only .badge, .vision-seo .material-icons{
-    display: inline;
-    line-height: inherit;
+.vision-seo-item {
+    padding: 10px;
+    margin: 10px 14px;
+    border-radius: 3px;
+}
+.vision-seo-item span {
+    float: right;
+    background: #dedede;
+    display: block;
+    color: #333;
+    padding: 3px 6px;
+    margin-top: -3px;
+    border-radius: 3px;
+}
+.vision-seo-tips {
+    background: #dedede;
+    border-radius: 3px;
+    padding: 10px;
+    margin: -8px 15px 10px;
+}
+.vision-seo-tips::before {
+    content: 'tips';
+    display: block;
+    background: #eee;
+    width: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #757373;
+    line-height: 19px;
+    font-size: 0.7rem;
+    margin: 0 0 10px;
+}
+.vision-seo-badge {
+    position: absolute;
+    height: 20px;
+    line-height: 20px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    top: -10px;
+    right: -10px;
+}
+.vision-seo-badge.seo-css-error {
+    background: red;
+    color: #fff;
+    
+}
+.vision-seo-badge.seo-css-warning {
+    background: orange;
+    color: #fff;
+}
+.vision-seo-badge.seo-css-success {
+    background: #00a651;
+    color: #fff;
+}
+.vision-seo-badge .material-icons {
+    float: none;
+    vertical-align: initial;
+    line-height: 1;
+    margin: 0;
+    font-size: 1rem;
+    letter-spacing: -4px;
+    margin-left: -4px;
+}
+.visions-css-checkbox {
+    float: left;
+    margin-right: 10px;
 }
