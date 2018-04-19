@@ -340,19 +340,8 @@
                     if (elt.classList.contains('vision-seo-checkbox')) {
                         var click = elt.getAttribute('data-click');
                         document.querySelectorAll(click).forEach(function(child){
-                            if (elt.checked) {
-                                child.classList.add('vision-seo-reveal');
-                            } else {
-                                child.classList.remove('vision-seo-reveal');
-                            }
-                            //elt.classList.toggle('vision-seo-checked');
+                            child.classList.toggle('vision-seo-reveal');
                         });
-                        /*if (elt.checked) {
-                            aside.classList.add('vision-seo-right');
-                        } else {
-                            
-                            aside.classList.remove('vision-seo-right');
-                        }*/
                     } 
                     if (elt.classList.contains('vision-seo-close')) {
                         aside.classList.remove('open');
