@@ -36,6 +36,7 @@ here the features available with Vision SEO :
 * check if the web page has `title` and if it's value is empty
 * check if the web page has `description` and if it's value is empty
 * give the `load time performance` for the current page
+* check `meta robots` *NEW*
 
 ## Demo
 https://ornitho13.github.io/vision-seo/
