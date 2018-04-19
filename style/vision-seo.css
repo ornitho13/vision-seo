@@ -80,6 +80,7 @@ detect img without alt
     padding: 10px;
     line-height: 45px;
     z-index: 9999;
+    text-align: right;
 }
 .vision-seo-btn {
     border: 1px solid #c5c5c5;
