@@ -21,26 +21,23 @@
             ;
         },
         getMeta : function () {
-            var children = document.head.children,
-                hasViewport = false;
-            
-            for (var obj in children) {
-                if (children.hasOwnProperty(obj)) {
-                    var item = children[obj];
-                    if (item.tagName === 'META' && item.getAttribute('name') === 'viewport') {
-                        hasViewport = true;
-                    }
+            var viewport = document.querySelectorAll('meta[name="viewport"]');
+            if (viewport.length > 0) {
+                viewport = viewport[0];
+                var contentV = viewport.getAttribute('content');
+                if (contentV !== null) {
+                    this.meta.data.push(
+                        '<div class="vision-seo-item seo-css-success">Mobile Viewport detected</div>' +
+                        '<div class="vision-seo-source"><code>' + viewport.outerHTML.trim().replace('<', '&lt;').replace('>', '&gt;') + '</code></div>'
+                    );
+                } else {
+                    this.meta.data.push(
+                        '<div class="vision-seo-item seo-css-warning">Mobile Viewport not detected</div>'
+                    );
+                    this.meta.nbError++;
                 }
             }
 
-            if (hasViewport) {
-                this.meta.data.push(
-                    '<div class="vision-seo-item ' + (hasViewport ? 'seo-css-success' : 'seo-css-warning') + 
-                    '">Mobile Viewport' + (hasViewport ? '' : ' not') + ' detected</div>'
-                );
-            } else {
-                this.meta.nbError++;
-            }
 
             var canonical = document.querySelectorAll('link[rel="canonical"]');
             if (canonical.length > 0) {
@@ -53,9 +50,44 @@
                     this.meta.nbError++;
                 } else {
                     this.meta.data.push(
-                        '<div class="vision-seo-item seo-css-success">canonical exist</div>'
+                        '<div class="vision-seo-item seo-css-success">canonical exist</div>' +
+                        '<div class="vision-seo-source"><code>' + canonical.outerHTML.trim().replace('<', '&lt;').replace('>', '&gt;') + '</code></div>'
                     );
                 }
+            } else {
+                this.meta.data.push(
+                    '<div class="vision-seo-item seo-css-warning">canonical not exist or exist but have no value</div>'
+                );
+            }
+
+            var robots = document.querySelectorAll('meta[name="robots"]');
+            
+            if (robots.length > 0) {
+                robots = robots[0];
+                var content = robots.getAttribute('content');
+                if (content !== null) {
+                    var exp = new RegExp('(noindex|none)', 'i');
+
+                    if (content.match(exp)) {
+                        this.meta.nbError++;
+                        this.meta.data.push(
+                            '<div class="vision-seo-item seo-css-error">Page is blocked from indexing</div>' +
+                            '<div class="vision-seo-source"><code>' + robots.outerHTML.trim().replace('<', '&lt;').replace('>', '&gt;') + '</code></div>'
+                        );
+                    } else {
+                        this.meta.data.push(
+                            '<div class="vision-seo-item seo-css-success">Page isn\'t blocked from indexing</div>'
+                        );
+                    }
+                } else {
+                    this.meta.data.push(
+                        '<div class="vision-seo-item seo-css-success">Page isn\'t blocked from indexing</div>'
+                    );
+                }
+            } else {
+                this.meta.data.push(
+                    '<div class="vision-seo-item seo-css-success">Page isn\'t blocked from indexing</div>'
+                );
             }
 
             var eltTitle = document.getElementsByTagName('title'),
@@ -215,7 +247,7 @@
             var nbAWithoutHref = document.querySelectorAll('a:not([href]), a[href=""]').length;
             this.link.data.push(
                 '<div class="vision-seo-item ' + (nbAWithoutHref > 0 ? 'seo-css-error' : 'seo-css-success') + 
-                '"><input class="vision-seo-checkbox" type="checkbox" data-click=\'a:not([href]), a[href="]\' title="reveal"/>' + 
+                '">' + (nbAWithoutHref > 0 ? '<input class="vision-seo-checkbox" type="checkbox" data-click=\'a:not([href]), a[href="]\' title="reveal"/>' : '') + 
                 'A without href attribute : <span>' + nbAWithoutHref + '</span></div>'
             );
             if (nbAWithoutHref > 0) {
@@ -274,7 +306,7 @@
                     var type = item.getAttribute('data-type');
                     if (typeof self[type] !== 'undefined') {
                         var dataType = self[type];
-                        aside.innerHTML = '<div class="vision-seo-title">' + dataType.title  + '</div>';
+                        aside.innerHTML = '<div class="vision-seo-title">' + dataType.title  + '<i class="material-icons vision-seo-close">close</i></div>';
                         dataType.data.forEach(function (item) {
                             aside.innerHTML += item;
                         });
@@ -308,13 +340,23 @@
                     if (elt.classList.contains('vision-seo-checkbox')) {
                         var click = elt.getAttribute('data-click');
                         document.querySelectorAll(click).forEach(function(child){
-                            child.classList.toggle('vision-seo-reveal');
-                            elt.classList.toggle('vision-seo-checked');
+                            if (elt.checked) {
+                                child.classList.add('vision-seo-reveal');
+                            } else {
+                                child.classList.remove('vision-seo-reveal');
+                            }
+                            //elt.classList.toggle('vision-seo-checked');
                         });
-                        if (elt.checked) {
-                            aside.classList.remove('open');
-                        }
+                        /*if (elt.checked) {
+                            aside.classList.add('vision-seo-right');
+                        } else {
+                            
+                            aside.classList.remove('vision-seo-right');
+                        }*/
                     } 
+                    if (elt.classList.contains('vision-seo-close')) {
+                        aside.classList.remove('open');
+                    }
                 }, true);
                 
             });
@@ -373,6 +415,10 @@
             icon.rel = 'stylesheet';
             icon.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
             document.head.appendChild(icon);
+            var police = document.createElement('link');
+            police.rel = 'stylesheet';
+            police.href = 'https://fonts.googleapis.com/css?family=Cousine';
+            document.head.appendChild(police);
 
             return this;
         }
