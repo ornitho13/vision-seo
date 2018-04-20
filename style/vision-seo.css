@@ -111,6 +111,40 @@ detect img without alt
     background: none;
     color: #00a651;
 }
+.vision-seo-score {
+    display: inline-block;
+    background: #e0e0e0;
+    line-height: 37px;
+    padding: 0 15px;
+    margin: 0 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: .7rem;
+    border-radius: 3px;
+}
+.vision-seo-score.seo-css-error {
+    background: red;
+    color: #000;
+}
+.vision-seo-score.seo-css-bad {
+    background: orange;
+    color: #000;
+}
+.vision-seo-score.seo-css-warning {
+    background: yellow;
+    color: #000;
+}
+.vision-seo-score.seo-css-almost {
+    background: rgb(157, 255, 0);
+    color: #000;
+}
+.vision-seo-score.seo-css-sucess {
+    background: #00a651;
+    color: #000;
+}
+.vision-seo-score span {
+    font-size: 1rem;
+}
 .vision-seo-aside {
     position: fixed;
     top: 0;
@@ -120,8 +154,24 @@ detect img without alt
     box-shadow: #c7c7c7 1px 0px 10px 0px;
     transition: all .3s linear;
     background: #fff;
+    /*overflow: hidden;
+    overflow-y: scroll*/
 }
 .vision-seo-aside.open {
+    right: 0;
+}
+.vision-seo-content {
+    position: absolute;
+    top: 0;
+    right: -340px;
+    bottom: 0;
+    width: 340px;
+    overflow: hidden;
+    overflow-y: auto;
+    transition: all .3s linear;
+    background: rgba(255, 255, 255, 0.5)
+}
+.vision-seo-content.selected {
     right: 0;
 }
 .vision-seo-title {
@@ -236,21 +286,27 @@ detect img without alt
     letter-spacing: -4px;
     margin-left: -4px;
 }
-.vision-seo-checkbox {
+.vision-seo-checkbox, .vision-seo-checkbox[type="radio"] {
     position: relative;
     float: left;
     height: 17px;
     margin: 0 10px 0 0;
     width: 17px;
 }
-.vision-seo-checkbox::before {
+.vision-seo-checkbox[type="radio"] {
+    border-radius: 50%;
+}
+.vision-seo-checkbox::before, .vision-seo-checkbox[type="radio"]::before {
     content: '';
     display: block;
     height: 17px;
     width: 17px;
     background: #fff;
 }
-.vision-seo-checkbox:checked::after {
+.vision-seo-checkbox[type="radio"]::before {
+    border-radius: 50%;
+}
+.vision-seo-checkbox:checked::after, .vision-seo-checkbox[type="radio"]:checked::after {
     content: '';
     display: block;
     height: 13px;
@@ -259,4 +315,7 @@ detect img without alt
     background: #333;
     position: absolute;
     top: 0;
+}
+.vision-seo-checkbox[type="radio"]:checked::after {
+    border-radius: 50%;
 }
