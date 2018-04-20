@@ -397,7 +397,7 @@
                 aside.appendChild(elt);
             }
 
-            aside.classList.add('open');
+            //aside.classList.add('open');
 
             var button = document.querySelectorAll('.vision-seo-bar button');
             button.forEach(function(item){
