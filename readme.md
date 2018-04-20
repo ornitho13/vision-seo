@@ -21,7 +21,9 @@ in your `<head>`
 
 ## What ?
 here the features available with Vision SEO :
-* add a SEO score *NEW (v1.2)*
+
+* add a SEO score **NEW (v1.2)**
+* add Twitter and Facebook open graph detection **NEW (v1.2)**
 * check `meta robots` *(v1.1)*
 * verify `<h1>` number
 * verify `<h1>`, `<h2>`, ... hierarchy
