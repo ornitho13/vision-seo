@@ -21,6 +21,8 @@ in your `<head>`
 
 ## What ?
 here the features available with Vision SEO :
+* add a SEO score *NEW (v1.2)*
+* check `meta robots` *(v1.1)*
 * verify `<h1>` number
 * verify `<h1>`, `<h2>`, ... hierarchy
 * check if the website is `https`
@@ -36,7 +38,6 @@ here the features available with Vision SEO :
 * check if the web page has `title` and if it's value is empty
 * check if the web page has `description` and if it's value is empty
 * give the `load time performance` for the current page
-* check `meta robots` *NEW*
 
 ## Demo
 https://ornitho13.github.io/vision-seo/
@@ -46,3 +47,6 @@ Basically nothing, or maybe npm for the easy installation
 
 ## Have ideas for this tool ?
 feel free to open issue at : https://github.com/ornitho13/vision-seo/issues
+
+## Version
+1.2.0
