@@ -319,3 +319,62 @@ detect img without alt
 .vision-seo-checkbox[type="radio"]:checked::after {
     border-radius: 50%;
 }
+
+.vision-seo-perf {
+    margin: 0 14px;
+    padding: 10px;
+    position: relative;
+}
+.vision-seo-perf-item,
+.vision-seo-perf-event-ready-label, .vision-seo-perf-event-load-label {
+    position: relative;
+    height: 30px;
+    border-radius: 3px;
+    background: #ede;
+    margin: 10px 0;
+    line-height: 30px;
+}
+.vision-seo-ms {
+    background: #eee;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #757373;
+    line-height: 19px;
+    font-size: 0.7rem;
+    margin: 5px 5px;
+    float: right;
+    padding: 0 5px;
+}
+.vision-seo-perf-bar {
+    position: absolute;
+    height: 100%;
+    background: #333;
+    top: 0
+}
+.vision-seo-perf-label {
+    padding: 0 5px;
+    width: 100px;
+}
+
+.vision-seo-perf-event-ready, .vision-seo-perf-event-load {
+    width: 4px;
+    position: absolute;
+    height: 280px;
+    top: 15px;
+    background: blue;
+    cursor: help;
+}
+.vision-seo-perf-event-load {
+    background: red;
+}
+.vision-seo-perf-event-ready-label, .vision-seo-perf-event-load-label {
+    color: blue;
+    padding: 0 0 0 5px;
+    background: #fafafa;
+    border: 1px solid #eee;
+}
+.vision-seo-perf-event-load-label {
+    color: red;
+}
+

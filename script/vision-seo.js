@@ -227,7 +227,7 @@
             }
             this.perf.data.push(
                 '<div class="vision-seo-item ' + (nbNode < 1000 ? 'seo-css-success' : 'seo-css-error') + '">' + (
-                    nbNode > 1000 ? 'too many node in page (' + nbNode + ' nodes)' : 'under 1000 nodes (' + nbNode + ' nodes)'
+                    nbNode > 1000 ? 'too many node in page <span>' + nbNode + ' nodes</span>' : 'under 1000 nodes <span>' + nbNode + ' nodes</span>'
                 ) + '</div>'
             );
             this.total++;
@@ -247,21 +247,75 @@
             window.addEventListener('load', function () {
                 this.total++;
                 if ('performance' in window) {
-                    //noinspection JSUnresolvedVariable
-                    var time = (performance.timing.loadEventStart - performance.timing.navigationStart);
-                    self.perf.data.push(
-                        '<div class="vision-seo-item ' + (time > 2500 ? 'seo-css-error' : (time > 1500 ? 'seo-css-warning' : 'seo-css-success')) + 
-                        '">loading time  <span>' + time + ' ms</span></div>' +
-                        '<div class="vision-seo-tips">page loading time should be under 1 500 ms</div>'
-                    );
-                    this.total++;
-                    if (time > 2500) {
-                        self.perf.nbError++;
-                    } else if (time > 1500 && time < 2500) {
-                        this.point += 0.5;
-                        self.perf.nbWarning++;
-                    } else {
-                        this.point++;
+                    if (performance.navigation) {
+                        self.perf.data.push(
+                            '<div class="vision-seo-item ' + (performance.navigation.redirectCount > 0 ? 'seo-css-warning' : 'seo-css-success') + 
+                            '">Redirect Count<span>' + (performance.navigation.redirectCount) + '</span></div>'
+                        );
+                    }
+                    if (performance.timing) {
+                        var valuePercent = [],
+                            timing = performance.timing,
+                            modulo = timing.loadEventStart - timing.navigationStart, //=> is 100%
+                            domContentLoaded = timing.domContentLoadedEventStart - timing.navigationStart,
+                            navigationT = timing.redirectStart - timing.navigationStart < 0 ? 0 : timing.redirectStart - timing.navigationStart,
+                            redirectT = timing.redirectEnd - timing.redirectStart,
+                            dnsT = timing.domainLookupEnd - timing.domainLookupStart,
+                            networkT = timing.connectEnd - timing.connectStart,
+                            requestT = timing.responseStart - timing.requestStart,
+                            responseT = timing.responseEnd - timing.responseStart,
+                            domT = timing.domComplete - timing.domLoading,
+                            eventArray = []
+                        ;
+                        valuePercent.push({label: 'navigation', timing : navigationT, value : Math.round((navigationT * 100) / modulo)});
+                        valuePercent.push({label: 'redirect', timing : redirectT, value : Math.round((redirectT * 100) / modulo)});
+                        valuePercent.push({label: 'DNS Lookup', timing : dnsT, value : Math.round((dnsT * 100) / modulo)});
+                        valuePercent.push({label: 'network', timing : networkT, value : Math.round((networkT * 100) / modulo)});
+                        valuePercent.push({label: 'request', timing : requestT, value : Math.round((requestT * 100) / modulo)});
+                        valuePercent.push({label: 'response', timing : responseT, value : Math.round((responseT * 100) / modulo)});
+                        valuePercent.push({label: 'dom processing', timing : domT, value : Math.round((domT * 100) / modulo)});
+
+                        eventArray.push({label: 'ready (DOMContentLoaded)', timing: domContentLoaded, value : (domContentLoaded * 100) /  modulo, css: 'ready'});
+                        eventArray.push({label: 'load', timing: modulo, value : 100, css: 'load'});
+
+                        var sequence = 0;
+                        self.perf.data.push('<section class="vision-seo-perf">');
+                        valuePercent.forEach(function(item){
+                            self.perf.data.push(
+                                '<div class="vision-seo-perf-item"><span class="vision-seo-perf-label">' + item.label + '</span><span class="vision-seo-perf-bar" style="left:' + 
+                                (130 + sequence) + 'px;width:' + item.value + 'px;"></span><span class="vision-seo-ms">' + item.timing + ' ms</span></div>'
+                            );
+                            sequence += item.value;
+                        });
+                        eventArray.forEach(function(item){
+                            self.perf.data.push(
+                                '<div class="vision-seo-perf-event-' + item.css + '" style="left:' + 
+                                (130 + item.value) + 'px;" title="' + item.label + ': ' + item.timing + ' ms"></div>' +
+                                '<div class="vision-seo-perf-event-' + item.css + '-label">' + item.label + '<span class="vision-seo-ms">' + item.timing + ' ms</span></div>'
+                            );
+                        });
+                        
+                        self.perf.data.push('</section>');
+
+                        
+
+
+                        //noinspection JSUnresolvedVariable
+                        var time = (performance.timing.loadEventStart - performance.timing.navigationStart);
+                        self.perf.data.push(
+                            '<div class="vision-seo-item ' + (time > 2500 ? 'seo-css-error' : (time > 1500 ? 'seo-css-warning' : 'seo-css-success')) + 
+                            '">loading time  <span>' + time + ' ms</span></div>' +
+                            '<div class="vision-seo-tips">page loading time should be under 1 500 ms</div>'
+                        );
+                        this.total++;
+                        if (time > 2500) {
+                            self.perf.nbError++;
+                        } else if (time > 1500 && time < 2500) {
+                            this.point += 0.5;
+                            self.perf.nbWarning++;
+                        } else {
+                            this.point++;
+                        }
                     }
                 }
             });
