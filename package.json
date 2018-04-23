@@ -22,5 +22,11 @@
   "bugs": {
     "url": "https://github.com/ornitho13/vision-seo/issues"
   },
-  "homepage": "https://github.com/ornitho13/vision-seo#readme"
+  "homepage": "https://github.com/ornitho13/vision-seo#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-compass": "^2.1.0",
+    "gulp-uglify": "^3.0.0",
+    "pump": "^3.0.0"
+  }
 }
