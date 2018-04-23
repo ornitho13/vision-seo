@@ -22,8 +22,11 @@ in your `<head>`
 ## What ?
 here the features available with Vision SEO :
 
-* add a SEO score **NEW (v1.2)**
-* add Twitter and Facebook open graph detection **NEW (v1.2)**
+* update performance content : add performance timing mesurement (DNS, Network, DomContentLoaded, load, redirectCount...) **NEW (v1.2.1)**
+
+![Performance Timings](https://github.com/ornitho13/vision-seo/blob/master/image/performance-timing.png?raw=true)
+* add a SEO score *(v1.2)*
+* add Twitter and Facebook open graph detection *(v1.2)*
 * check `meta robots` *(v1.1)*
 * verify `<h1>` number
 * verify `<h1>`, `<h2>`, ... hierarchy
@@ -51,4 +54,4 @@ Basically nothing, or maybe npm for the easy installation
 feel free to open issue at : https://github.com/ornitho13/vision-seo/issues
 
 ## Version
-1.2.0
+1.2.1
