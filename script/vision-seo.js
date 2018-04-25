@@ -430,7 +430,7 @@
             ;
 
             seoBar.className = 'vision-seo-bar';
-            seoBar.innerHTML = ' <button class="vision-seo-btn" data-type="hierarchy"><i class="material-icons badge seo-css-default">alarm</i>hierarchy</button>' +
+            seoBar.innerHTML = ' <button class="vision-seo-btn" data-type="hierarchy"><i class="material-icons badge seo-css-default">title</i>hierarchy</button>' +
                 '<button class="vision-seo-btn" data-type="link"><i class="material-icons badge seo-css-default">link</i>link</button>' +
                 '<button class="vision-seo-btn" data-type="img"><i class="material-icons badge seo-css-default">insert_photo</i>image</button>' +
                 '<button class="vision-seo-btn" data-type="meta"><i class="material-icons badge seo-css-default">code</i>meta</button>' +
@@ -492,7 +492,6 @@
                 score.className = 'vision-seo-score ' + classScore;
                 score.innerHTML = 'Your SEO score : <span>' + percent + ' %</span>';
                 seoBar.appendChild(score);
-                //seoBar.innerHTML += '<div class="vision-seo-score">Your SEO score : <span><span>' + self.point + '</span>/' + self.total + '</span></div>';
                 button.forEach(function(item){
                     var type = item.getAttribute('data-type');
                     if (typeof self[type] !== 'undefined') {
