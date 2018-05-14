@@ -25,6 +25,7 @@ here the features available with Vision SEO :
 * update performance content : add performance timing mesurement (DNS, Network, DomContentLoaded, load, redirectCount...) **NEW (v1.2.1)**
 
 ![Performance Timings](https://github.com/ornitho13/vision-seo/blob/master/image/performance-timing.png?raw=true)
+* add `Schema.org` detection *(v1.2.3)*
 * add a SEO score *(v1.2)*
 * add Twitter and Facebook open graph detection *(v1.2)*
 * check `meta robots` *(v1.1)*
@@ -54,4 +55,4 @@ Basically nothing, or maybe npm for the easy installation
 feel free to open issue at : https://github.com/ornitho13/vision-seo/issues
 
 ## Version
-1.2.1
+1.2.3
