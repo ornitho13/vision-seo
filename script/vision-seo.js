@@ -9,6 +9,7 @@
         meta : {'title' : 'Meta Status', data : [], nbError : 0, nbWarning : 0},
         perf : {'title' : 'Performance Status', data : [], nbError : 0, nbWarning : 0},
         hierarchy : {'title' : 'Hierarchy Status', data : [], nbError : 0, nbWarning : 0},
+        schema : {'title' : 'Schema Status', data: [], nbError: 0, nbWarning : 0},
         point : 0,
         total : 0,
         init : function () {
@@ -18,9 +19,34 @@
                 .getLink()
                 .getPerformance()
                 .getMeta()
+                .getSchema()
           
                 .prepareBar()
             ;
+        },
+        getSchema : function () {
+            var schemaData = document.querySelectorAll('[itemtype]'),
+                len = schemaData.length,
+                i = 0;
+
+            this.total++;
+            if (len > 0) {
+                this.schema.data.push(
+                    '<div class="vision-seo-item seo-css-success">Schema detected</div>'
+                );
+                this.point++;
+
+                for (;i < len; i++) {
+                    this.schema.data.push(
+                        '<div class="vision-seo-source"><code>' + schemaData[i].getAttribute('itemtype') + '</code></div>'
+                    );
+                }
+            } else {
+                this.schema.nbWarning++;
+            }
+
+            return this;
+
         },
         getMeta : function () {
             var viewport = document.querySelectorAll('meta[name="viewport"]');
@@ -102,6 +128,7 @@
                 this.meta.data.push(
                     '<div class="vision-seo-item seo-css-success">Page isn\'t blocked from indexing</div>'
                 );
+                this.point++;
             }
 
             var eltTitle = document.getElementsByTagName('title'),
@@ -430,8 +457,9 @@
             ;
 
             seoBar.className = 'vision-seo-bar';
-            seoBar.innerHTML = ' <button class="vision-seo-btn" data-type="hierarchy"><i class="material-icons badge seo-css-default">alarm</i>hierarchy</button>' +
+            seoBar.innerHTML = ' <button class="vision-seo-btn" data-type="hierarchy"><i class="material-icons badge seo-css-default">title</i>hierarchy</button>' +
                 '<button class="vision-seo-btn" data-type="link"><i class="material-icons badge seo-css-default">link</i>link</button>' +
+                '<button class="vision-seo-btn" data-type="schema"><i class="material-icons badge seo-css-default">linear_scale</i>Schema</button>' + 
                 '<button class="vision-seo-btn" data-type="img"><i class="material-icons badge seo-css-default">insert_photo</i>image</button>' +
                 '<button class="vision-seo-btn" data-type="meta"><i class="material-icons badge seo-css-default">code</i>meta</button>' +
                 '<button class="vision-seo-btn" data-type="perf"><i class="material-icons badge seo-css-default">alarm</i>Performance</button>'
@@ -472,6 +500,7 @@
             window.addEventListener('load', function () {
                 populate('hierarchy');
                 populate('link');
+                populate('schema');
                 populate('img');
                 populate('meta');
                 populate('perf');
@@ -492,7 +521,6 @@
                 score.className = 'vision-seo-score ' + classScore;
                 score.innerHTML = 'Your SEO score : <span>' + percent + ' %</span>';
                 seoBar.appendChild(score);
-                //seoBar.innerHTML += '<div class="vision-seo-score">Your SEO score : <span><span>' + self.point + '</span>/' + self.total + '</span></div>';
                 button.forEach(function(item){
                     var type = item.getAttribute('data-type');
                     if (typeof self[type] !== 'undefined') {
