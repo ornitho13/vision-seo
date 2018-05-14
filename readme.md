@@ -21,11 +21,13 @@ in your `<head>`
 
 ## What ?
 here the features available with Vision SEO :
+* add `Schema.org` detection **NEW (v1.2.3)**
 
+![Schema Detection](https://github.com/ornitho13/vision-seo/blob/master/image/schema-org.png?raw=true)
 * update performance content : add performance timing mesurement (DNS, Network, DomContentLoaded, load, redirectCount...) **NEW (v1.2.1)**
 
 ![Performance Timings](https://github.com/ornitho13/vision-seo/blob/master/image/performance-timing.png?raw=true)
-* add `Schema.org` detection *(v1.2.3)*
+
 * add a SEO score *(v1.2)*
 * add Twitter and Facebook open graph detection *(v1.2)*
 * check `meta robots` *(v1.1)*
