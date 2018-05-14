@@ -119,6 +119,7 @@
     box-shadow: #c7c7c7 1px 0px 10px 0px;
     transition: all .3s linear;
     background: #fff;
+    z-index: 9999;
     /*overflow: hidden;
     overflow-y: scroll*/
     &.open {
